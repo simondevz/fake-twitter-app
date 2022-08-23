@@ -1,19 +1,21 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
+import { connect } from 'react-redux';
 
 
-function App() {
-    const [state, setState] = useState({
-        posts: null,
-    })
-    
+function App({posts, updatePosts}) {
     useEffect(() => {
-        
-    }, []);
+        async function fetchData() {
+            const res = await axios.get('https://dummyjson.com/posts');
+            console.log('My response');
+            console.log(res);
+            updatePosts(res.data.posts);
+        }
+        fetchData();
+    }, [updatePosts]);
     
     function ListPosts() {
-        const {posts} = state;
-        if (!posts) {
+        if (!posts[0]) {
             return (
                 <li> No posts yet...</li>
             )
@@ -23,11 +25,13 @@ function App() {
             return (
                 <li key={post.id}>
                     <div>
-                    <span>{post.id
+                        <h5>{post.title}</h5>
+                        <p>{post.body}</p>
                     </div>
                 </li>
             )
-        })
+        });
+        return list
     }
     
     return (
@@ -40,4 +44,20 @@ function App() {
     )
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        posts: state.posts,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        updatePosts: (posts) => {
+            console.log('UPDATE_POSTS');
+            console.log(posts);
+            return dispatch({type: 'UPDATE_POSTS', payload: posts})
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (App);
