@@ -1,16 +1,21 @@
-import handlePostReducer from './handlePostReducer';
 
-function rootReducer(state = {}, action) {
-    switch (action.type) {
-        case 'UPDATE_POSTS':
-            console.log('rootReducer', state);
-            state = handlePostReducer(state, action);
-            console.log(state);
-            break;
-        default:
-            return state;
-    }
-    return state;
+const initState = {
+    posts: [],
 }
 
-export default rootReducer;
+const actionMap = {
+    UPDATE_POSTS: (state, action) => {
+        return {
+            ...state,
+            posts: action.payload
+        }
+    },
+    
+}
+
+function reducer(state = initState, action) {
+    const handler = actionMap[action.type];
+    return handler ? handler(state, action) : state;
+}
+
+export default reducer;
