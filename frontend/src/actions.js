@@ -6,3 +6,10 @@ export function updatePosts(payload) {
         payload: payload,
     }
 }
+
+export function toggleMenu(payload) {
+    return {
+        type: 'TOGGLE_MENU',
+        payload: payload,
+    }
+}

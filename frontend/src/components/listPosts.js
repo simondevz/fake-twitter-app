@@ -7,6 +7,7 @@ import { updatePosts } from "../actions"
 function ListPosts({posts, updatePosts}) {
     // Get posts from api onload
     useEffect(() => {
+        console.log("rendered list");
         async function fetchPosts() {
             const { data } = await axios.get("https://dummyjson.com/posts");
             updatePosts(data.posts);
@@ -18,25 +19,17 @@ function ListPosts({posts, updatePosts}) {
     function List() {
         const list = posts.map(post => {
             return (
-                <li key={post.id} className="row" >
-                    <div className="col s12 m6">
-                        <div className="card">
-                            <div className="card-content" >
-                                {//<span></span>for profile picture
-                                //<span></span>for users name
-                                //<span><a></a></span>for username and link to profile
-                                //<span></span>time since posts
-                                }
-                                <span>{post.title}</span>
-                                <p>{post.body}</p>
-                            </div>
-                            {/*<div class="card-action">
-                              <a href="#">Like</a>
-                              <a href="#"></a>
-                              <a href="#">Comment</a>
-                            </div>*/}
-                        </div>
+                <li key={post.id + Math.random()} className="section" >
+                    <div className="container" >
+                        {//<span></span>for profile picture
+                        //<span></span>for users name
+                        //<span><a></a></span>for username and link to profile
+                        //<span></span>time since posts
+                        }
+                        <span className="card-title">{post.title}</span>
+                        <p>{post.body}</p>
                     </div>
+                    <div className="divider"></div>
                 </li>
             )
         });
@@ -44,7 +37,7 @@ function ListPosts({posts, updatePosts}) {
     }
     
     return (
-        <ul>
+        <ul className="container" >
             <List />
         </ul>
     );

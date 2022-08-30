@@ -1,6 +1,7 @@
 
 const initState = {
     posts: [],
+    showMenu: false,
 }
 
 const actionMap = {
@@ -8,6 +9,12 @@ const actionMap = {
         return {
             ...state,
             posts: action.payload
+        }
+    },
+    TOGGLE_MENU: (state, action) => {
+        return {
+            ...state,
+            showMenu: action.payload
         }
     },
     

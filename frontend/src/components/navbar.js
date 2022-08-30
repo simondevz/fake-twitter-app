@@ -1,32 +1,71 @@
+import { connect } from "react-redux";
+import { useRef,useEffect } from "react";
+import { toggleMenu } from "../actions";
 
-
-function Navbar() {
+function Navbar({ showMenu, toggleMenu }) {
+    const navRef = useRef(null);
+    
+    useEffect(() => {
+        let prevNavPos = window.pageYOffset;
+        window.addEventListener("scroll",() => {
+            let currentNavPos = window.pageYOffset;
+            if (prevNavPos < currentNavPos) {
+                navRef.current.style.top = "-4em";
+            } else {
+                navRef.current.style.top = "0";
+            }
+            prevNavPos = currentNavPos;
+        });
+    })
+    
+    window.addEventListener("click", event => {
+        if (event.target.classList[0] !== "menu") {
+            if (showMenu) {
+                toggleMenu(false)
+            }
+        }
+    });
+    
     return (
         <>
-            <nav className="nav-extended">
-                <div className="nav-wrapper">
-                    <a href="#" className="brand-logo">Logo</a>
-                    <a href="#" 
-                        onClick={() => { alert('clicked') }}
-                        data-target="mobile-demo" 
-                        className="sidenav-trigger">
-                        <i className="material-icons">menu</i>
-                    </a>
-                    <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li><a href="sass.html">Sass</a></li>
-                        <li><a href="badges.html">Components</a></li>
-                        <li><a href="collapsible.html">JavaScript</a></li>
-                    </ul>
+            <nav className="cyan accent-1" ref={navRef} >
+                <div className="container">
+                    <i className="fa-solid fa-bars"
+                        onClick={() => { setTimeout(() => {toggleMenu(true)}, 50) }}
+                    ></i>
+                    <i className="fa-brands fa-twitter"></i>
+                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
                 </div>
             </nav>
-            
-            <ul className="sidenav" id="mobile-demo">
-                <li><a href="sass.html">Sass</a></li>
-                <li><a href="badges.html">Components</a></li>
-                <li><a href="collapsible.html">JavaScript</a></li>
-            </ul>
+            <div className={
+                    "menu " +
+                    "hide-on-med-and-up " +
+                    (showMenu ? "hover " : null)
+                } >        
+                <div className="card-image">
+                </div>
+                <div>
+                    <ul>
+                        <li>one</li>
+                        <li>two</li>
+                        <li>three</li>
+                    </ul>
+                </div>
+            </div>
         </>
     )
 }
 
-export default Navbar;
+function mapStateToProps(state) {
+    return {
+        showMenu: state.showMenu,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        toggleMenu: payload => { dispatch(toggleMenu(payload)) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Navbar);
