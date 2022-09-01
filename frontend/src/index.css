@@ -1,3 +1,7 @@
+:root {
+    --primaryColor: #84ffff;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -20,11 +24,12 @@
     left: 0;
 }
 
-nav .container {
+nav .container,
+footer .container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 1em;
+    padding-top: 1rem;
 }
 
 nav {
@@ -32,4 +37,22 @@ nav {
     top: 0;
     left: 0;
     transition: top 0.3s ease;
+    background-color: var(--primaryColor);
+}
+
+footer {
+    position: sticky;
+    left: 0;
+    bottom: 0;
+    height: 4rem;
+    width: 100%;
+    background-color: var(--primaryColor);
+}
+
+footer i {
+    color: white;
+}
+
+footer .container {
+    padding: 2rem;
 }

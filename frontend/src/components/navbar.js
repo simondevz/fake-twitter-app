@@ -6,6 +6,7 @@ function Navbar({ showMenu, toggleMenu }) {
     const navRef = useRef(null);
     
     useEffect(() => {
+        // Hide Navbar while scrolling up.
         let prevNavPos = window.pageYOffset;
         window.addEventListener("scroll",() => {
             let currentNavPos = window.pageYOffset;
@@ -19,6 +20,7 @@ function Navbar({ showMenu, toggleMenu }) {
     })
     
     window.addEventListener("click", event => {
+        // Hide sidebar onclick, anywhere except the sidebar itself
         if (event.target.classList[0] !== "menu") {
             if (showMenu) {
                 toggleMenu(false)
@@ -27,32 +29,17 @@ function Navbar({ showMenu, toggleMenu }) {
     });
     
     return (
-        <>
-            <nav className="cyan accent-1" ref={navRef} >
-                <div className="container">
-                    <i className="fa-solid fa-bars"
-                        onClick={() => { setTimeout(() => {toggleMenu(true)}, 50) }}
-                    ></i>
-                    <i className="fa-brands fa-twitter"></i>
-                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
-                </div>
-            </nav>
-            <div className={
-                    "menu " +
-                    "hide-on-med-and-up " +
-                    (showMenu ? "hover " : null)
-                } >        
-                <div className="card-image">
-                </div>
-                <div>
-                    <ul>
-                        <li>one</li>
-                        <li>two</li>
-                        <li>three</li>
-                    </ul>
-                </div>
+        <nav ref={navRef} >
+            <div className="container">
+                <i className="fa-solid fa-bars"
+                    // The time out lets the hide sidebar function run
+                    // and evaluate before running
+                    onClick={() => { setTimeout(() => {toggleMenu(true)}, 50) }}
+                ></i>
+                <i className="fa-brands fa-twitter"></i>
+                <i className="fa-solid fa-arrow-right-arrow-left"></i>
             </div>
-        </>
+        </nav>
     )
 }
 
