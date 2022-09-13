@@ -1,25 +1,24 @@
 // TODO: Implement lazy loading
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { 
+    BrowserRouter, 
+    Routes, 
+    Route
+} from "react-router-dom";
 
 import ListPosts from "./listPosts";
 import Post from "./post";
-import Navbar from "./navbar";
-import SideBar from "./sidebar";
-import Footer from "./footer";
+import Signup from "./signup";
 
 function App() {
     return (
-        <>
-            <Navbar />
-            <SideBar />
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<ListPosts />} />
-                    <Route path="/post" element={<Post />} />
-                </Routes>
-            </BrowserRouter>
-            <Footer />
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/" element={<ListPosts />} >
+                    <Route path="/:postID" element={<Post />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 

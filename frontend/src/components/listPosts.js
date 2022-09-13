@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import axios from "axios";
 
 import { updatePosts } from "../actions"
+import Navbar from "./navbar"
+import Footer from "./footer"
 
 function ListPosts({posts, updatePosts}) {
     // Get posts from api onload
@@ -78,9 +80,13 @@ function ListPosts({posts, updatePosts}) {
     }
     
     return (
-        <ul className="container" >
-            <List />
-        </ul>
+        <>
+            <Navbar />
+            <ul className="container" >
+                <List />
+            </ul>
+            <Footer />
+        </>
     );
 }
 

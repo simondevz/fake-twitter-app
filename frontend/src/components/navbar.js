@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import { useRef,useEffect } from "react";
+
 import { toggleMenu } from "../actions";
+import Sidebar from "./sidebar";
 
 function Navbar({ showMenu, toggleMenu }) {
     const navRef = useRef(null);
@@ -29,17 +31,20 @@ function Navbar({ showMenu, toggleMenu }) {
     });
     
     return (
-        <nav ref={navRef} >
-            <div className="container">
-                <i className="fa-solid fa-bars"
-                    // The time out lets the hide sidebar function run
-                    // and evaluate before running
-                    onClick={() => { setTimeout(() => {toggleMenu(true)}, 50) }}
-                ></i>
-                <i className="fa-brands fa-twitter"></i>
-                <i className="fa-solid fa-arrow-right-arrow-left"></i>
-            </div>
-        </nav>
+        <>
+            <nav ref={navRef} >
+                <div className="container">
+                    <i className="fa-solid fa-bars"
+                        // The time out lets the hide sidebar function run
+                        // and evaluate before running
+                        onClick={() => { setTimeout(() => {toggleMenu(true)}, 50) }}
+                    ></i>
+                    <i className="fa-brands fa-twitter"></i>
+                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
+                </div>
+            </nav>
+            <Sidebar />
+        </>
     )
 }
 

@@ -13,3 +13,10 @@ export function toggleMenu(payload) {
         payload: payload,
     }
 }
+
+export function updateSignup(payload) {
+    return {
+        type: 'UPDATE_SIGNUP',
+        payload: payload,
+    }
+}
