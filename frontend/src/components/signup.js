@@ -1,18 +1,21 @@
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { updateSignup } from "../actions"
 
 function Signup({ signupForm, updateSignup }) {
+    const navigate = useNavigate();
+    
     function submit(event) {
         async function postData() {
             try {
                 const response = await axios.post('http://localhost:8000/api/auth/registration/', signupForm);
-                console.log(response);
                 if (response.status === 201) {
-                    return
+                    navigate("/")
                 }
             } catch (e) {
+                console.log(e);
                 if (e.response.status === 400) {
                     return
                 }
@@ -20,6 +23,13 @@ function Signup({ signupForm, updateSignup }) {
         }
         postData();
         event.preventDefault();
+    }
+    
+    function handleClick(event, key) {
+        updateSignup({
+            ...signupForm,
+            [key]: event.target.value,
+        });
     }
     
     return (
@@ -31,12 +41,7 @@ function Signup({ signupForm, updateSignup }) {
                     placeholder="Username"
                     value={signupForm.username} 
                     onChange={
-                        event => {
-                            updateSignup({
-                                ...signupForm,
-                                username: event.target.value,
-                            })
-                        }
+                        event => { handleClick(event, "username") }
                     }
                 />
                 <input 
@@ -45,12 +50,7 @@ function Signup({ signupForm, updateSignup }) {
                     placeholder="Email"
                     value={signupForm.email} 
                     onChange={
-                        event => {
-                            updateSignup({
-                                ...signupForm,
-                                email: event.target.value,
-                            })
-                        }
+                        event => { handleClick(event, "email") }
                     }
                 />
                 <input 
@@ -59,12 +59,7 @@ function Signup({ signupForm, updateSignup }) {
                     placeholder="Password"
                     value={signupForm.password1} 
                     onChange={
-                        event => {
-                            updateSignup({
-                                ...signupForm,
-                                password1: event.target.value,
-                            })
-                        }
+                       event => { handleClick(event, "password1") }
                     }
                 />
                 <input 

@@ -20,3 +20,10 @@ export function updateSignup(payload) {
         payload: payload,
     }
 }
+
+export function login(payload) {
+    return {
+        type: 'LOGIN',
+        payload: payload,
+    }
+}

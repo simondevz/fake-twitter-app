@@ -35,7 +35,13 @@ const actionMap = {
             ...state,
             signupForm: action.payload,
         }
-    }
+    },
+    LOGIN: (state, action) => {
+        return {
+            ...state,
+            loginForm: action.payload,
+        }
+    },
 }
 
 // My reducer looks up the required action
