@@ -1,6 +1,21 @@
 from rest_framework import generics
-from .models import User, Post, FollowingRecords, Comments, Retweet, Reaction, Notification
-from .serializers import UserSerializer, PostSerializer, FollowingRecordsSerializer, CommentsSerializer, RetweetSerializer, ReactionSerializer, NotificationSerializer
+from .models import (
+    User, 
+    Post,
+    FollowingRecords, 
+    Comments, Retweet,
+    Reaction,
+    Notification
+)
+from .serializers import (
+    UserSerializer,
+    PostSerializer, 
+    FollowingRecordsSerializer,
+    CommentsSerializer,
+    RetweetSerializer,
+    ReactionSerializer,
+    NotificationSerializer
+)
 
 # Create your views here.
 class ListUsers(generics.ListCreateAPIView):

@@ -9,6 +9,11 @@ const initState = {
         password1: "",
         password2: "",
     },
+    loginForm: {
+        username: "",
+        email: "",
+        password: "",
+    },
 }
 
 // Object of actions to use in my reducer

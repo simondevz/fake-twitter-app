@@ -8,11 +8,13 @@ import {
 import ListPosts from "./listPosts";
 import Post from "./post";
 import Signup from "./signup";
+import Login from "./login";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/Login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/" element={<ListPosts />} >
                     <Route path="/:postID" element={<Post />} />
