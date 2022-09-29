@@ -1,29 +1,37 @@
 
-
+// The action type corresponds with the state it updates
+// so that the actionMap function in my reducer.js file can work
 export function updatePosts(payload) {
     return {
-        type: 'UPDATE_POSTS',
+        type: 'posts',
         payload: payload,
     }
 }
 
 export function toggleMenu(payload) {
     return {
-        type: 'TOGGLE_MENU',
+        type: 'showMenu',
         payload: payload,
     }
 }
 
 export function updateSignup(payload) {
     return {
-        type: 'UPDATE_SIGNUP',
+        type: 'signupForm',
         payload: payload,
     }
 }
 
 export function login(payload) {
     return {
-        type: 'LOGIN',
+        type: 'loginForm',
+        payload: payload,
+    }
+}
+
+export function updateToken(payload) {
+    return {
+        type: 'token',
         payload: payload,
     }
 }

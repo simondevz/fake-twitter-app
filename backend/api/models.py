@@ -8,8 +8,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=20, default="", blank=True)
     bio = models.TextField(max_length=150, default="", blank=True)
     deactivated = models.BooleanField(null=False, default=False)
-    profile_picture = models.ImageField(upload_to="media/profile_picture/% Y/% m/% d", null=True, blank=True)
-    cover_photo = models.ImageField(upload_to="media/cover_photo/% Y/% m/% d", null=True, blank=True)
+    profile_picture = models.ImageField(upload_to="media/profile_picture/%Y/%m/%d", default="/media/profile_picture/default.jpg", null=True, blank=True)
+    cover_photo = models.ImageField(upload_to="media/cover_photo/%Y/%m/%d", default="/media/cover_photo/default.jpeg", null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     date_joined = models.DateField(auto_now_add=True)
     
@@ -17,6 +17,14 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.name:
             self.name = self.username
+        
+        # Set default cover photo
+        if not self.cover_photo:
+            self.cover_photo = "media/cover_photo/default.jpeg"
+        
+        # set default profile picture
+        if not self.profile_picture:
+            self.profile_picture = "media/profile_picture/default.jpg"
             
         super(User, self).save(*args, **kwargs)
         
@@ -40,10 +48,12 @@ class FollowingRecords(models.Model):
 class Post(models.Model):
     userId = models.ForeignKey("User", on_delete=models.CASCADE, null=False, blank=False, related_name="posts")
     # For tweets that make up threads
-    thread = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+    thread = models.OneToOneField("self", on_delete=models.CASCADE, null=True, blank=True)
+    threadHead = models.BooleanField(default=False)
     text = models.TextField(max_length=300, default="", blank=True)
-    media = models.FileField(upload_to='media/posts/% Y/% m/% d', null=True, blank=True)
     date_posted = models.DateField(auto_now_add=True)
+    time_posted = models.TimeField(auto_now_add=True)
+    media = models.FileField(upload_to='media/posts/%Y/%m/%d', null=True, blank=True)
     
     def __str__(self):
         return f"post {self.id} posted by {self.userId.username}"
@@ -72,6 +82,7 @@ class Comments(models.Model):
     text = models.TextField(max_length=300, default="", blank=True)
     media = models.FileField(upload_to="media/comments/% Y/% m/% d", null=True, blank=True)
     date_posted = models.DateField(auto_now_add=True)
+    time_posted = models.TimeField(auto_now_add=True)
     
     def __str__(self):
         return f"comment {self.id}, by {self.userId.username}"
@@ -85,6 +96,7 @@ class Retweet(models.Model):
     text = models.TextField(max_length=300, default="", blank=True)
     media = models.FileField(upload_to="media/posts/% Y/% m/% d", null=True, blank=True)
     date_posted = models.DateField(auto_now_add=True)
+    time_posted = models.TimeField(auto_now_add=True)
     
     def __str__(self):
         return f"retweet {self.id}, by {self.userId.username}"
@@ -97,6 +109,8 @@ class Notification(models.Model):
     commentId = models.ForeignKey("Comments", on_delete=models.CASCADE, related_name="notifications", null=True, blank=True)# if its about a coomment
     reactionId = models.ForeignKey("Reaction", on_delete=models.CASCADE, related_name="notifications", null=True, blank=True)# or like
     date_notified = models.DateField(auto_now_add=True)
+    time_notified = models.TimeField(auto_now_add=True)
+    sent = models.BooleanField(default=False)
     
     def __str__(self):
         return f"notification {self.id}, for {self.userId.username}"

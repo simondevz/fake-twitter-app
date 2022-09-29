@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -60,20 +61,30 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 AUTH_USER_MODEL = 'api.User'
+LOGIN_URL = '/api/auth/login'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer',
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    )
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
 
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_COOKIE = 'token'
+JWT_AUTH_REFRESH_COOKIE = 'refresh_token'
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=6),
+    'ROTATE_REFRESH_TOKENS': True,
+    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

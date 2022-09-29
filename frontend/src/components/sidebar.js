@@ -1,7 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 import profile from "../images/profile_pic/profile3.png"
 
 function SideBar({showMenu}) {
+    const navigate = useNavigate();
+    
+    function logout() {
+        async function postData() {
+            try {
+                console.log("Called");
+                const response = await axios.post("http://127.0.0.1:8000/api/auth/logout/", {})
+                console.log(response);
+                if (response.status === 200) {
+                    navigate("/login")
+                }
+            } catch (e) {console.log(e)}
+        }
+        postData();
+    }
+    
     return (
         <div className={
                 "menu " +
@@ -23,7 +41,7 @@ function SideBar({showMenu}) {
             </div>
             <div>
                 {/*dark mode logo*/}
-                Log Out
+                <span onClick={ logout }>Log Out</span>
             </div>
         </div>
         

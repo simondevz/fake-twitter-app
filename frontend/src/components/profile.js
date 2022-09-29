@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function Profile() {
     const location = useLocation();
@@ -7,6 +7,7 @@ function Profile() {
     return (
         <>
             <h1>{location.state.username}</h1>
+            <Link to="../posts">posts</Link>
         </>
     )
 }

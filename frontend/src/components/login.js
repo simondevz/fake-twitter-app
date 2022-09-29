@@ -1,16 +1,22 @@
 import { connect } from "react-redux";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Cookies from "universal-cookie";
+//import axios from "axios";
 
-import { login } from "../actions";
+import { login, updateToken } from "../actions";
+import useFetch from "./fetch";
 
-function Login({ loginForm, login }) {
+function Login({ loginForm, login, token, updateToken }) {
+    const cookie = new Cookies();
     const navigate = useNavigate();
+    const fetch = useFetch();
+    
     const usernameInput = useRef(null);
     const emailInput = useRef(null);
     const [loginText, setLoginText] = useState("Email");
     
+    // Toggle between using username to login and using email
     function showMail() {
         if (usernameInput.current.type === "hidden") {
             usernameInput.current.type = "text";
@@ -25,6 +31,7 @@ function Login({ loginForm, login }) {
         return
     }
     
+    // Fires the login function that updates loginForm
     function handleClick(event, key) {
         login({
             ...loginForm,
@@ -34,13 +41,24 @@ function Login({ loginForm, login }) {
     
     function submit(event) {
         async function postData() {
-            try {
-                const response = await axios.post("http://localhost:8000/api/auth/login/", loginForm);
-                console.log(response);
-                if (response.status === 200) {
-                    navigate(`/${response.data.user.username}`, {state: response.data.user})
-                }
-            } catch (e) {console.log(e);}
+            const config = {
+                token,
+                updateToken,
+                data: loginForm,
+                headers: {"Content-Type": "application/json"},
+            };
+            const response = await fetch('/auth/login/', 'post', config);
+            
+            if (response.status === 200) {
+                cookie.set('refresh_token', response.data.refresh_token, {
+                    path: '/',
+                    secure: false,
+                    sameSite: false,
+                });
+                
+                updateToken(response.data.access_token);
+                navigate(`/${response.data.user.username}`, {state: response.data.user});
+            }
         }
         postData();
         event.preventDefault();
@@ -88,12 +106,14 @@ function Login({ loginForm, login }) {
 function mapState(state) {
     return {
         loginForm: state.loginForm,
+        token: state.token,
     }
 }
 
 function mapDispatch(dispatch) {
     return {
-        login: payload => { dispatch(login(payload)) }
+        login: payload => { dispatch(login(payload)) },
+        updateToken: payload => { dispatch(updateToken(payload)) },
     }
 }
 

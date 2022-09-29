@@ -5,6 +5,7 @@ import {
     Route
 } from "react-router-dom";
 
+import RouteGuard from "./routeGuard";
 import ListPosts from "./listPosts";
 import Post from "./post";
 import Signup from "./signup";
@@ -15,11 +16,14 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/Login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/:userID" element={<Profile />} />
-                <Route path="/" element={<ListPosts />} >
-                    <Route path="/:postID" element={<Post />} />
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+                <Route element={<RouteGuard />} >
+                    <Route index element={<ListPosts />} />
+                    <Route path="posts" element={<ListPosts />} >
+                        <Route path=":postID" element={<Post />} />
+                    </Route>
+                    <Route path=":userID" element={<Profile />} />
                 </Route>
             </Routes>
         </BrowserRouter>

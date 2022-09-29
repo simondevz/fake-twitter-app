@@ -3,6 +3,7 @@
 const initState = {
     posts: [],
     showMenu: false,
+    token: null,
     signupForm: {
         username: "",
         email: "",
@@ -14,40 +15,26 @@ const initState = {
         email: "",
         password: "",
     },
+    // State for file support
+    image_file: [".jpeg", ".jpg", ".svg", ".png", ".gif"],
+    video_file: [".webm", ".ogg", ".mp4"],
 }
 
-// Object of actions to use in my reducer
-const actionMap = {
-    UPDATE_POSTS: (state, action) => {
+// This function generates a function that 
+// returns the updated state
+const actionMap = () => {
+    return (state, action) => {
+        // The updated state
         return {
             ...state,
-            posts: action.payload
+            [action.type]: action.payload,
         }
-    },
-    TOGGLE_MENU: (state, action) => {
-        return {
-            ...state,
-            showMenu: action.payload
-        }
-    },
-    UPDATE_SIGNUP: (state, action) => {
-        return {
-            ...state,
-            signupForm: action.payload,
-        }
-    },
-    LOGIN: (state, action) => {
-        return {
-            ...state,
-            loginForm: action.payload,
-        }
-    },
+    }
 }
 
-// My reducer looks up the required action
-// and uses that to update the state
+// My reducer calls actionMap which returns a function to the handler
 function reducer(state = initState, action) {
-    const handler = actionMap[action.type];
+    const handler = actionMap();
     return handler ? handler(state, action) : state;
 }
 

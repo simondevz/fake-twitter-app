@@ -1,51 +1,43 @@
-import { Link } from "react-router-dom";
-import { generatePath } from "react-router";
-import { connect } from "react-redux";
-import { useEffect } from "react";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { generatePath, Link } from "react-router-dom";
+import { 
+    useEffect,
+    useLayoutEffect,
+    useRef,
+} from "react";
 
 import { updatePosts } from "../actions"
 import Navbar from "./navbar"
 import Footer from "./footer"
+import useFetch from "./fetch"
 
-function ListPosts({posts, updatePosts}) {
-    // Get posts from api onload
+function ListPosts() {
+    const posts = useSelector(state => state.posts);
+    const dispatch = useDispatch();
+    const fetch = useFetch();
+    
+    // Use useRef to store the refrence to the function
+    // by doing this it stops the infinite re-render,
+    const fetchRef = useRef(fetch);
+    
+    // but it does not update the function when it changes,
+    // so, i used useLayoutEffect to force an update when ever it changes
+    useLayoutEffect(() => {
+        fetchRef.current = fetch;
+    }, [fetch])
+    
     useEffect(() => {
-        async function fetchPosts() {
-            try {
-                const { data } = await axios.get("https://dummyjson.com/posts");
-                updatePosts(data.posts);
-            } catch (e) {
-                let error;
-                if (e.response.status === 404) {
-                    error = {
-                        id: "error",
-                        message: e.message,
-                        description: "Page not Found",
-                        status: 404,
-                    }
-                }
-                updatePosts(error);
-            }
+        // Get posts from api onload
+        const fetchPosts = async () => {
+            const data = await fetchRef.current("/posts/");
+            console.log("data", data);
+            dispatch(updatePosts(data.data));
         }
         fetchPosts();
-    }, [updatePosts]);
+    }, [fetchRef, dispatch]);
     
     // Map data to a proper format for display
     function List() {
-        // If there was an error
-        if (posts.id === "error") {
-            return (
-                <div style={{
-                    height: "100vh",
-                }}
-                className="container">
-                    <h3>{posts.message}</h3>
-                    <h6>{posts.description}</h6>
-                </div>
-            )
-        }
-        
         // If the data has not be retrieved yet
         if (!posts[0]) {
             return (
@@ -57,24 +49,36 @@ function ListPosts({posts, updatePosts}) {
             )
         }
         
-        
         const list = posts.map(post => {
-            return (
+            // Only show first post in threads
+            if (!post.thread) return (
                 <li key={post.id + Math.random()} className="section" >
                     <Link to={generatePath("/post/:id", {id: post.id})}>
                         <div className="container" >
-                            {//<span></span>for profile picture
-                            //<span></span>for users name
-                            //<span><a></a></span>for username and link to profile
-                            //<span></span>time since posts
-                            }
-                            <span className="card-title">{post.title}</span>
-                            <p>{post.body}</p>
+                            <span><img src={post.userId.profile_picture} alt="Profile" /></span>
+                            <span className="card-title">
+                                <span>{post.userId.name}</span>
+                                @{post.userId.username}
+                                <span>{post.date_posted } { post.time_posted}</span>
+                            </span>
+                            { post.text ? (
+                                <p className="text">{post.text}</p>
+                                ) : null }
+                            { post.media ? (
+                                <p className="media">
+                                    <embed src={post.media} />
+                                </p>
+                                ) : null }
+                            { post.threadHead ? (
+                                <span>show thread</span>
+                                ): null }
                         </div>
                         <div className="divider"></div>
                     </Link>
                 </li>
             )
+            
+            return "";
         });
         return list;
     }
@@ -90,18 +94,4 @@ function ListPosts({posts, updatePosts}) {
     );
 }
 
-// Adds posts to my props for ListPosts
-function mapStateToProps(state) {
-    return {
-        posts: state.posts,
-    }
-}
-
-// Adds a funtion to use in updating props.posts to props
-function mapDispatchToProps(dispatch) {
-    return {
-        updatePosts: payload => { dispatch(updatePosts(payload)) },
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps) (ListPosts);
+export default ListPosts;
