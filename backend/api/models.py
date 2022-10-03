@@ -27,7 +27,7 @@ class User(AbstractUser):
             self.profile_picture = "media/profile_picture/default.jpg"
             
         super(User, self).save(*args, **kwargs)
-        
+    
     def __str__(self):
         return f"@{self.username}"
 

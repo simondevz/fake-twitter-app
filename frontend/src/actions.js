@@ -35,3 +35,17 @@ export function updateToken(payload) {
         payload: payload,
     }
 }
+
+export function updateUser(payload) {
+    return {
+        type: 'user',
+        payload: payload,
+    }
+}
+
+export function updatePostForm(payload) {
+    return {
+        type: 'postForm',
+        payload: payload,
+    }
+}

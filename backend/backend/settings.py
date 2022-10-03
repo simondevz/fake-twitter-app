@@ -65,6 +65,7 @@ LOGIN_URL = '/api/auth/login'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer',
+    'JWT_TOKEN_CLAIMS_SERIALIZER': 'api.serializers.MyTokenObtainPairSerializer',
 }
 
 REST_FRAMEWORK = {
@@ -83,7 +84,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(seconds=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=6),
     'ROTATE_REFRESH_TOKENS': True,
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
 }
 
 MIDDLEWARE = [

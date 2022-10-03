@@ -72,8 +72,15 @@ img[alt="Profile"] {
     object-fit: cover;
 }
 
+img[alt="cover"] {
+    width: 100vw;
+    height: 20vh;
+    object-fit: cover;
+}
+
 .media embed {
     width: 15rem;
     height: 15rem;
     object-fit: cover;
+    border-radius: 10%;
 }

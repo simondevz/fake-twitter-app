@@ -12,7 +12,6 @@ function useFetch() {
     const getToken = useToken();
     
     async function fetch(url, method='get', config) {
-        // Any component using this has to have token and updateToken passed into config
         // Check if there is a token and header, if not get a token.
         if (!access_token && !config?.token) {
             access_token = await getToken();
@@ -52,7 +51,6 @@ function useFetch() {
                 });
                 return
             }
-            axios.interceptors.response.eject(myInterceptor);
             return Promise.reject(error);
         });
     
@@ -74,6 +72,7 @@ function useFetch() {
             return response
         } catch (e) {
             console.log("fetch", e);
+            axios.interceptors.response.eject(myInterceptor);
         }
     }
     
@@ -81,20 +80,3 @@ function useFetch() {
 }
 
 export default useFetch;
-
-// the error to work on
-/*
-response.response.data = {
-    "detail": "Given token not valid for any token type",
-    "code": "token_not_valid",
-    "messages": [
-        {
-            "token_class": "AccessToken",
-            "token_type": "access",
-            "message": "Token is invalid or expired"
-        }
-    ]
-}
-response.response.status = 401
-response.response.statusText = "Unauthorized"
-*/

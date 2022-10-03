@@ -1,4 +1,5 @@
 // TODO: Implement lazy loading
+// TODO: Replace Link with Navlink
 import { 
     BrowserRouter, 
     Routes, 
@@ -6,11 +7,12 @@ import {
 } from "react-router-dom";
 
 import RouteGuard from "./routeGuard";
-import ListPosts from "./listPosts";
+import Home from "./home";
 import Post from "./post";
 import Signup from "./signup";
 import Login from "./login";
 import Profile from "./profile";
+import CreatePost from "./createpost";
 
 function App() {
     return (
@@ -19,11 +21,12 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
                 <Route element={<RouteGuard />} >
-                    <Route index element={<ListPosts />} />
-                    <Route path="posts" element={<ListPosts />} >
+                    <Route index element={<Home />} />
+                    <Route path="posts" element={<Home />} >
                         <Route path=":postID" element={<Post />} />
                     </Route>
-                    <Route path=":userID" element={<Profile />} />
+                    <Route path="createpost" element={<CreatePost />} />
+                    <Route path=":username" element={<Profile />} />
                 </Route>
             </Routes>
         </BrowserRouter>

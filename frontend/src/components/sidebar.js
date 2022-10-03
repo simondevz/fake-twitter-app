@@ -1,16 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
-import axios from "axios";
-import profile from "../images/profile_pic/profile3.png"
+import { useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useFetch from "./fetch";
 
-function SideBar({showMenu}) {
+function SideBar() {
+    const showMenu = useSelector(state => state.showMenu);
+    const user = useSelector(state => state.user);
+    const fetch = useFetch();
     const navigate = useNavigate();
     
     function logout() {
         async function postData() {
             try {
                 console.log("Called");
-                const response = await axios.post("http://127.0.0.1:8000/api/auth/logout/", {})
+                const response = await fetch("/auth/logout/")
                 console.log(response);
                 if (response.status === 200) {
                     navigate("/login")
@@ -27,12 +29,19 @@ function SideBar({showMenu}) {
             } >
             <div className="card">
                 <div className="card-image">
-                    <img src={profile} alt="profile" />
+                    <img src={user?.profile_picture} alt="profile" />
                 </div>
             </div>
             <div>
                 <ul>
-                    <li>Profile</li>
+                    <li>
+                        <Link 
+                            to={`../${user?.username}`}
+                            state={user}
+                        >
+                            Profile
+                        </Link>
+                    </li>
                     <li>Bookmarks</li>
                     <li>Settings</li>
                     <li>Create New Account</li>
@@ -48,10 +57,4 @@ function SideBar({showMenu}) {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        showMenu: state.showMenu,
-    }
-}
-
-export default connect(mapStateToProps) (SideBar);
+export default SideBar;

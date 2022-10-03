@@ -1,7 +1,16 @@
-from django.db import transaction
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.db import transaction
 
-from .models import User, Post, FollowingRecords, Comments, Retweet, Reaction, Notification
+from .models import (
+    User, 
+    Post,
+    FollowingRecords,
+    Comments,
+    Retweet,
+    Reaction,
+    Notification,
+)
 
 class FollowingRecordsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,8 +85,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
-            'username', 
-            'email',
+            'username',
             'name', 
             'bio', 
             'deactivated',
@@ -109,6 +117,7 @@ class PostSerializer(serializers.ModelSerializer):
             'time_posted',
         ]
     
+    # Only show the number of comments and retweets
     def to_representation(self, value):
         rep = super().to_representation(value)
         
@@ -116,3 +125,13 @@ class PostSerializer(serializers.ModelSerializer):
         rep['retweets'] = value.retweets.count()
         
         return rep
+
+# My custom serializer to add the user's information to the access token
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['user'] = UserSerializer(user).data
+        return token

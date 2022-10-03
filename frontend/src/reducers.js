@@ -1,9 +1,22 @@
 
 // Initial State incase there is no current state
 const initState = {
+    apiHost: "http://localhost:8000", // update during production
     posts: [],
-    showMenu: false,
+    user: null,
     token: null,
+    showMenu: false,
+    postForm: {
+        text: "",
+        media: null,
+        date_posted: null,
+        time_posted: null,
+        thread: null,
+        threadHead: false,
+        postId: null,
+        commentId: null,
+        retweetId: null,
+    },
     signupForm: {
         username: "",
         email: "",

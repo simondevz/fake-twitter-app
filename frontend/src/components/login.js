@@ -1,13 +1,16 @@
-import { connect } from "react-redux";
-import { useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 import Cookies from "universal-cookie";
-//import axios from "axios";
 
-import { login, updateToken } from "../actions";
+import { login, updateToken, updateUser } from "../actions";
 import useFetch from "./fetch";
 
-function Login({ loginForm, login, token, updateToken }) {
+function Login() {
+    // Get data from redux store and dispatch function
+    const loginForm = useSelector(state => state.loginForm);
+    const dispatch = useDispatch();
+    
     const cookie = new Cookies();
     const navigate = useNavigate();
     const fetch = useFetch();
@@ -33,31 +36,31 @@ function Login({ loginForm, login, token, updateToken }) {
     
     // Fires the login function that updates loginForm
     function handleClick(event, key) {
-        login({
+        dispatch(login({
             ...loginForm,
             [key]: event.target.value,
-        });
+        }));
     }
     
     function submit(event) {
         async function postData() {
             const config = {
-                token,
-                updateToken,
                 data: loginForm,
                 headers: {"Content-Type": "application/json"},
             };
-            const response = await fetch('/auth/login/', 'post', config);
+            const response = await fetch('auth/login/', 'post', config);
+            console.log("login", response);
             
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 cookie.set('refresh_token', response.data.refresh_token, {
                     path: '/',
                     secure: false,
                     sameSite: false,
                 });
                 
-                updateToken(response.data.access_token);
-                navigate(`/${response.data.user.username}`, {state: response.data.user});
+                dispatch(updateToken(response.data.access_token));
+                dispatch(updateUser(response.data.user));
+                navigate('/posts');
             }
         }
         postData();
@@ -103,18 +106,4 @@ function Login({ loginForm, login, token, updateToken }) {
     )
 }
 
-function mapState(state) {
-    return {
-        loginForm: state.loginForm,
-        token: state.token,
-    }
-}
-
-function mapDispatch(dispatch) {
-    return {
-        login: payload => { dispatch(login(payload)) },
-        updateToken: payload => { dispatch(updateToken(payload)) },
-    }
-}
-
-export default connect(mapState, mapDispatch) (Login);
+export default Login;
