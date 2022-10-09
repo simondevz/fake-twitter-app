@@ -84,6 +84,10 @@ class PostsView(generics.ListCreateAPIView):
         # Send both posts(tweets) and retweets in home feed
         data = serializePost.data + serializeRetweet.data
         return Response(data)
+    
+    def post(self, request, pk):
+        print(request.data);
+        return Response('yh')
 
 # A view that retrieves a thread, 
 # by recursively get the post with thread id of the previous one

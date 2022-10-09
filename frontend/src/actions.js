@@ -49,3 +49,17 @@ export function updatePostForm(payload) {
         payload: payload,
     }
 }
+
+export function updateDurationDisplay(payload) {
+    return {
+        type: 'durationDisplay',
+        payload: payload,
+    }
+}
+
+export function updatePostsToSend(payload) {
+    return {
+        type: 'postsToSend',
+        payload: payload,
+    }
+}

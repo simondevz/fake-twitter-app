@@ -1,5 +1,6 @@
 :root {
     --primaryColor: #84ffff;
+    font-size: 16px;
 }
 
 * {
@@ -83,4 +84,121 @@ img[alt="cover"] {
     height: 15rem;
     object-fit: cover;
     border-radius: 10%;
+}
+
+.duration {
+    color: GhostWhite;
+    width: 20rem;
+    height: 20rem;
+    background: dimgrey;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+}
+
+.duration_container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: #708090ce;
+}
+
+.inner_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+}
+
+input.digit,
+input.digit:focus,
+input.digit:active {
+    text-align: center;
+    color: GhostWhite;
+    padding: 0;
+    border: 0.1rem solid transparent !important;
+}
+
+span.digit {
+    opacity: .4;
+    padding: .5rem 0;
+}
+
+.days,
+.hours,
+.min {
+    width: 5rem;
+    height: 6rem;
+}
+
+.duration div .numbers {
+    text-align: center;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.duration h2 {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.5rem;
+}
+
+.digit {
+    display: block;
+    height: 3rem;
+}
+
+.cancel {
+    left: 8rem;
+}
+
+.set,
+.cancel,
+.set:focus,
+.cancel:focus {
+    color: DodgerBlue;
+    background: inherit;
+    width: 5rem;
+    position: relative;
+    top: 7.5rem;
+    padding: 0;
+    margin: 0;
+    border: 0 solid transparent;
+    font-weight: 500;
+}
+
+.set {
+    left: 8.5rem;
+}
+
+.duration_header {
+    font-weight: 500;
+    padding-top: 1rem;
+}
+
+.choosen_time {
+    display: block;
+    height: 2.5rem;
+    width: 4.5rem;
+    border-top: .2rem solid GhostWhite;
+    border-bottom: .2rem solid GhostWhite;
+    z-index: 50;
+    position: absolute;
+    bottom: 8rem;
+}
+
+.days .choosen_time {
+    left: 1.2rem;
+}
+
+.min .choosen_time {
+    left: 7.8rem;
+}
+.hours .choosen_time {
+    left: 14.4rem;
 }

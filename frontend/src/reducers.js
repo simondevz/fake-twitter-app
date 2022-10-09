@@ -1,14 +1,25 @@
 
 // Initial State incase there is no current state
 const initState = {
+    webSDK: "QbQyuHLixx1rga1pJKvWvFmOhKat2Y7g",
     apiHost: "http://localhost:8000", // update during production
     posts: [],
     user: null,
     token: null,
     showMenu: false,
+    durationDisplay: false,
+    postsToSend: {
+        arr: [],
+        inUse: false,
+    },
     postForm: {
         text: "",
-        media: null,
+        media: [],
+        gif: null,
+        polls: {
+            first:null,
+            duration: 86400000,
+        },
         date_posted: null,
         time_posted: null,
         thread: null,
