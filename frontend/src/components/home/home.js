@@ -1,17 +1,18 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { 
     useEffect,
     useLayoutEffect,
     useRef,
 } from "react";
 
-import { updatePosts } from "../actions"
-import Navbar from "./navbar"
-import Footer from "./footer"
-import useFetch from "./fetch"
-import ListPosts from "./listPosts"
+import { updatePosts } from "../../actions"
+import Navbar from "../navbar/navbar"
+import Footer from "../footer/footer"
+import useFetch from "../hooks/fetch"
+import ListPosts from "../listPosts/listPosts"
 
 function Home() {
+    const posts = useSelector(state => state.posts);
     const dispatch = useDispatch();
     const fetch = useFetch();
     
@@ -32,14 +33,13 @@ function Home() {
             dispatch(updatePosts(data.data));
         }
         fetchPosts();
-        return () => dispatch(updatePosts([]))
     }, [fetchRef, dispatch]);
     
     return (
         <>
             <Navbar />
             <ul className="container" >
-                <ListPosts />
+                <ListPosts posts={posts} />
             </ul>
             <Footer />
         </>

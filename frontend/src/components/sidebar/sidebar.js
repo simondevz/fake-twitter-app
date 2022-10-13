@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import useFetch from "./fetch";
+import useFetch from "../hooks/fetch";
 
 function SideBar() {
     const showMenu = useSelector(state => state.showMenu);

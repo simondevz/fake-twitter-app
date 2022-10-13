@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 
-import { updatePostForm, updateDurationDisplay } from "../actions";
-import Duration from "./duration";
+import { updatePostForm, updateDurationDisplay } from "../../actions";
+import Duration from "../duration/duration";
 
 function PollsForm() {
     const postForm = useSelector(state => state.postForm);

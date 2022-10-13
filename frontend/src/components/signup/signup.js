@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { updateSignup } from "../actions"
+import { updateSignup } from "../../actions"
 
 function Signup({ signupForm, updateSignup }) {
     const navigate = useNavigate();

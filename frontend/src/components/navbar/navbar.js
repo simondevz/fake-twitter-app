@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { useRef,useEffect } from "react";
 
-import { toggleMenu } from "../actions";
-import Sidebar from "./sidebar";
+import { toggleMenu } from "../../actions";
+import Sidebar from "../sidebar/sidebar";
 
 function Navbar({ showMenu, toggleMenu }) {
     const navRef = useRef(null);

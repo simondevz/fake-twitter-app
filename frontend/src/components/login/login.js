@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import Cookies from "universal-cookie";
 
-import { login, updateToken, updateUser } from "../actions";
-import useFetch from "./fetch";
+import { login, updateToken, updateUser } from "../../actions";
+import useFetch from "../hooks/fetch";
 
 function Login() {
     // Get data from redux store and dispatch function

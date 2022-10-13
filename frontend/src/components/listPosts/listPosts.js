@@ -1,14 +1,15 @@
-import { useSelector } from "react-redux";
 import { Link, generatePath } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PostMedia from "../postMedia/postMedia";
+import QuoteTweet from "../quoteTweet/quoteTweet";
 
 // This component orders posts, retweets and 
 // comments for display
-function ListPosts() {
-    const posts = useSelector(state => state.posts);
+function ListPosts({ posts }) {
     const apiHost = useSelector(state => state.apiHost);
     
     // If the data has not be retrieved yet
-    if (!posts[0]) {
+    if (!posts?.[0]) {
         return (
             <div style={{
                 height: "100vh",
@@ -26,7 +27,7 @@ function ListPosts() {
             <li 
                 key={post.id + Math.random()}
                 className="section" >
-                <Link to={generatePath("/post/:id", {id: post.id})}>
+                <Link state={post} to={generatePath("/post/:id", {id: post.id})}>
                     <div className="container" >
                         <span>
                             <img 
@@ -39,20 +40,16 @@ function ListPosts() {
                             @{post.userId.username}
                             <span>{post.date_posted } { post.time_posted}</span>
                         </span>
+                        { post.text && <p className="text">{post.text}</p> }
                         
-                        { post.text ? (
-                            <p className="text">{post.text}</p>
-                        ) : null }
-                        
-                        { post.media ? (
+                        { post.media?.[0] && (
                             <p className="media">
-                                <embed src={apiHost + post.media} />
+                                <PostMedia mediaArr={post.media} />
                             </p>
-                        ) : null }
+                        ) }
                         
-                        { post.threadHead ? (
-                            <span>show thread</span>
-                        ): null }
+                        { post.quoteId?.id && <QuoteTweet post={post.quoteId} /> }
+                        { post.threadHead && <span>show thread</span> }
                     </div>
                     <div className="divider"></div>
                 </Link>

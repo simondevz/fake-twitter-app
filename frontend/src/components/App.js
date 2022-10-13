@@ -5,19 +5,24 @@ import {
     Routes, 
     Route
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import RouteGuard from "./routeGuard";
-import Home from "./home";
-import Post from "./post";
-import Signup from "./signup";
-import Login from "./login";
-import Profile from "./profile";
-import CreatePost from "./createpost";
-import Gifs from "./gifs";
-import Form from "./form";
-import PollsForm from "./pollsForm";
+import RouteGuard from "./routeGuard/routeGuard";
+import Home from "./home/home";
+import Post from "./post/post";
+import Signup from "./signup/signup";
+import Login from "./login/login";
+import Profile from "./profile/profile";
+import CreatePost from "./createpost/createpost";
+import ListPosts from "./listPosts/listPosts";
+import Gifs from "./gifs/gifs";
+import Media from "./media/media";
+import PollsForm from "./pollsForm/pollsForm";
 
 function App() {
+    const postForm = useSelector(state => state.postForm);
+    const comments = useSelector(state => state.comments);
+    
     return (
         <BrowserRouter>
             <Routes>
@@ -25,12 +30,15 @@ function App() {
                 <Route path="signup" element={<Signup />} />
                 <Route element={<RouteGuard />} >
                     <Route index element={<Home />} />
-                    <Route path="posts" element={<Home />} >
-                        <Route path=":postID" element={<Post />} />
+                    <Route path="posts" element={<Home />} />
+                    <Route path="post/:postID" element={<Post />} >
+                        <Route index element={<ListPosts posts={comments} />} />
+                        <Route path="comment" element={<CreatePost />} >
+                            <Route index element={<Media media={postForm.media} />} />
+                        </Route>
                     </Route>
                     <Route path="createpost" element={<CreatePost />} >
-                        <Route index element={<Form />} />
-                        <Route path="form" element={<Form />} />
+                        <Route index element={<Media media={postForm.media} />} />
                         <Route path="polls" element={<PollsForm />} />
                     </Route>
                     <Route path="gifs" element={<Gifs />} />

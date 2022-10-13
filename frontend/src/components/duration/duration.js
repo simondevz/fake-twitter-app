@@ -1,4 +1,4 @@
-import { updatePostForm, updateDurationDisplay } from "../actions";
+import { updatePostForm, updateDurationDisplay } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
 

@@ -7,16 +7,17 @@ import {
     useRef,
 } from "react";
 
-import { updatePosts } from "../actions"
-import ListPosts from "./listPosts";
-import Loading from "./loading";
-import useFetch from "./fetch";
-import useToken from "./token";
-import useUrl from "./useUrl";
+import { updateUserPosts } from "../../actions"
+import ListPosts from "../listPosts/listPosts";
+import Loading from "../loading/loading";
+import useFetch from "../hooks/fetch";
+import useToken from "../hooks/token";
+import useUrl from "../hooks/useUrl";
 
 function Profile() {
     const [ isOwner, setIsOwner ] = useState(false);
     const user = useSelector(state => state.user);
+    const user_posts = useSelector(state => state.user_posts);
     const dispatch = useDispatch();
     
     const getToken = useToken();
@@ -54,7 +55,7 @@ function Profile() {
             
             const id = ownerRef.current ? ownerRef.current.id : data?.data.id;
             const response = await fetchRef.current(`/users/${id}/posts/`);
-            dispatch(updatePosts(response.data));
+            dispatch(updateUserPosts(response.data));
             
             // if there isn't already a user object in store
             // run getToken to put one there and
@@ -69,7 +70,7 @@ function Profile() {
         fetchPost();
         
         // return clean up function to remove posts from store
-        return () => dispatch(updatePosts([]))
+        return () => dispatch(updateUserPosts([]))
     }, [fetchRef, getTokenRef, ownerRef, location.pathname, userRef, dispatch])
     
     return (
@@ -106,7 +107,7 @@ function Profile() {
                     ) : null }
                     <span>{owner.date_joined}</span>
                 </div>
-                <ListPosts /></>
+                <ListPosts posts={user_posts} /></>
             ) : (<Loading />) }
         </>
     )

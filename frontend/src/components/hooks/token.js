@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { updateUser } from "../actions";
+import { updateUser } from "../../actions";
 
 function useToken() {
     const apiHost = useSelector(state => state.apiHost);

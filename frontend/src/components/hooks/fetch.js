@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import useToken from "./token";
-import { updateToken } from "../actions";
+import { updateToken } from "../../actions";
 
 function useFetch() {
     let access_token = useSelector(state => state.token);

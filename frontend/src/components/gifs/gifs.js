@@ -19,7 +19,7 @@ function Gifs() {
     
     function onGifClick(event) {
         navigate("/createpost/", {
-            state: {gif_id: event.id},
+            state: {gif: event.id},
         });
     }
     
