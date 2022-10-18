@@ -8,6 +8,20 @@ export function updatePosts(payload) {
     }
 }
 
+export function updateUserPosts(payload) {
+    return {
+        type: 'user_posts',
+        payload: payload,
+    }
+}
+
+export function updateComments(payload) {
+    return {
+        type: 'comments',
+        payload: payload,
+    }
+}
+
 export function toggleMenu(payload) {
     return {
         type: 'showMenu',
@@ -60,6 +74,27 @@ export function updateDurationDisplay(payload) {
 export function updatePostsToSend(payload) {
     return {
         type: 'postsToSend',
+        payload: payload,
+    }
+}
+
+export function updateThread(payload) {
+    return {
+        type: 'thread',
+        payload: payload,
+    }
+}
+
+export function updateCount(payload) {
+    return {
+        type: 'count',
+        payload: payload,
+    }
+}
+
+export function updateCreatePostInfo(payload) {
+    return {
+        type: 'createPost_info',
         payload: payload,
     }
 }

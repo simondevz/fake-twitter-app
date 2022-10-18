@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { updateThread } from "../../actions";
 import useFetch from "../hooks/fetch";
+import "./thread.sass";
 
 function Thread({postId}) {
     const thread = useSelector(state => state.thread);

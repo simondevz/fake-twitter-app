@@ -1,0 +1,78 @@
+@use "../../styles"
+
+.listPosts
+    color: styles.$theme_text_color
+    
+    .section
+        border-bottom: styles.$theme_border
+    
+    .container
+        padding: .5rem
+        display: flex
+        flex-direction: row
+    
+    .profile_section
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        padding: 0 .5rem
+    
+    .profile_pic
+        @include styles.profile_pic
+        display: inline-block
+        width: 3.3rem
+        height: 3.3rem
+        align-self: center
+    
+    .thread_profile_pic
+        @include styles.profile_pic
+        display: inline-block
+        width: 2.3rem
+        height: 2.3rem
+        align-self: center
+    
+    .thread_line
+        display: inline-block
+        width: .15rem
+        flex: 1
+        background-color: styles.$grey
+        border-radius: 30%
+        align-self: center
+        margin: .25rem 0
+    
+    .user
+        display: block
+        margin-bottom: .5rem
+    
+    .name
+        font-weight: bold
+    
+    .username, .time
+        color: styles.$grey
+        font-size: .85rem
+    
+    .divider
+        width: 75vw
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        padding: .5rem
+    
+    %icons
+        height: 1.3rem
+        stroke: styles.$grey
+        fill: styles.$grey
+        align-self: center
+    
+    .comment_logo
+        @extend %icons
+    
+    .retweet_logo
+        @extend %icons
+    
+    .like_logo
+        @extend %icons
+    
+    .show_thread
+        font-size: .9rem
+        color: styles.$blue

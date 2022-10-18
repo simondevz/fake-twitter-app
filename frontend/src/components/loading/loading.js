@@ -1,4 +1,4 @@
-
+import "./loading.sass";
 
 function Loading() {
     return (

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { updateSignup } from "../../actions"
+import "./signup.sass";
 
 function Signup({ signupForm, updateSignup }) {
     const navigate = useNavigate();

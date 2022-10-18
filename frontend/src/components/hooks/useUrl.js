@@ -5,6 +5,8 @@ function useUrl() {
     
     // Adds the domain name to the url if it doesn't have
     function url(path) {
+        if (!path) return "";
+        
         const text = path.substring(0, apiHost.length);
         return apiHost === text ? path : apiHost + path;
     }

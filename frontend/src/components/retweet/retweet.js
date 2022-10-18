@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { updateCount, updateCreatePostInfo } from "../../actions";
 import useToken from "../hooks/token";
 import useFetch from "../hooks/fetch";
+import "./retweet.sass";
 
 function Retweet({ display, post }) {
     const user = useSelector(state => state.user);

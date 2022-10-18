@@ -6,6 +6,7 @@ import { updateComments, updateCount, updateCreatePostInfo } from "../../actions
 import useFetch from "../hooks/fetch";
 import Retweet from "../retweet/retweet";
 import Thread from "../thread/thread";
+import "./post.sass";
 
 function Post() {
     const apiHost = useSelector(state => state.apiHost);

@@ -1,0 +1,41 @@
+@use "../../styles"
+
+.footer 
+    position: fixed
+    left: 0
+    bottom: 0
+    width: 100%
+    background-color: styles.$theme
+    
+    .container
+        width: 100vw
+        height: 3.2rem
+        display: flex
+        flex-direction: row
+        justify-content: space-around
+    
+    %logo
+        fill: styles.$theme_text_color
+        height: 1.5rem
+        align-self: center
+    
+    %logo_span
+        width: 50%
+        height: 100%
+        display: flex
+        align-self: center
+        align-content: center
+        justify-content: center
+        border: styles.$theme_border
+    
+    .home_logo_span
+        @extend %logo_span
+    
+    .bell_logo_span
+        @extend %logo_span
+    
+    .home_logo
+        @extend %logo
+    
+    .bell_logo
+        @extend %logo

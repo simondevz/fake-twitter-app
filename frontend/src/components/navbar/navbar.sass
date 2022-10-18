@@ -1,0 +1,38 @@
+@use "../../styles"
+
+.navbar
+    background-color: styles.$theme
+    position: sticky
+    top: 0
+    left: 0
+    transition: top 0.3s ease
+    border-bottom: styles.$theme_border
+    z-index: 1000
+    
+    .container
+        width: 100vw
+        height: 3.2rem
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        padding: 0 .5rem
+        
+        
+        %icon 
+            width: 1.7rem
+            height: 1.7rem
+            align-self: center
+        
+        .profile_pic
+            @extend %icon
+            @include styles.profile_pic
+            width: 2.2rem
+            height: 2.2rem
+        
+        .three_stars
+            @extend %icon
+            fill: styles.$theme_text_color
+        
+        .twitter_logo
+            @extend %icon
+            fill: styles.$blue

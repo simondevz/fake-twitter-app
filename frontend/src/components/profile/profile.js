@@ -13,6 +13,7 @@ import Loading from "../loading/loading";
 import useFetch from "../hooks/fetch";
 import useToken from "../hooks/token";
 import useUrl from "../hooks/useUrl";
+import "./profile.sass";
 
 function Profile() {
     const [ isOwner, setIsOwner ] = useState(false);

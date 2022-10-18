@@ -1,6 +1,7 @@
 import { updatePostForm, updateDurationDisplay } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
+import "./duration.sass";
 
 function Duration() {
     const postForm = useSelector(state => state.postForm);

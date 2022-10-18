@@ -1,0 +1,38 @@
+@forward "reset"
+@forward "colors"
+@forward "mixins"
+@forward "variables"
+
+@use "colors"
+@use "mixins"
+@use "variables"
+
+body
+    background-color: colors.$theme
+    line-height: 1.5
+
+.createpostLink
+    width: 3.5rem
+    height: 3.5rem
+    display: block
+    border-radius: 50%
+    background-color: colors.$blue
+    justify-content: center
+    align-content: center
+    position: fixed
+    bottom: 4.5rem
+    right: 2rem
+    z-index: 100
+    
+    &::after
+        content: "+"
+        position: relative
+        bottom: .35rem
+        left: .85rem
+        font-size: 3rem
+        font-weight: 300
+        text-align: center
+        color: white
+    
+    &:focus
+        border-radius: 50%

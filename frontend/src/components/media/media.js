@@ -1,4 +1,5 @@
 import { Gif } from '@giphy/react-components';
+import "./media.sass";
 
 function Media({ media }) {
     function previewMedia(files) {

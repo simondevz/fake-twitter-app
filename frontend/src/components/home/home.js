@@ -5,6 +5,7 @@ import {
     useRef,
 } from "react";
 
+import "./home.sass";
 import { updatePosts } from "../../actions"
 import Navbar from "../navbar/navbar"
 import Footer from "../footer/footer"
@@ -38,9 +39,7 @@ function Home() {
     return (
         <>
             <Navbar />
-            <ul className="container" >
-                <ListPosts posts={posts} />
-            </ul>
+            <ListPosts posts={posts} />
             <Footer />
         </>
     );

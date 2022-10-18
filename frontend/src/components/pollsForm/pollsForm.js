@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { updatePostForm, updateDurationDisplay } from "../../actions";
 import Duration from "../duration/duration";
+import "./pollsForm.sass";
 
 function PollsForm() {
     const postForm = useSelector(state => state.postForm);

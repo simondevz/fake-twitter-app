@@ -47,13 +47,15 @@ class FollowingRecords(models.Model):
 
 class Post(models.Model):
     userId = models.ForeignKey("User", on_delete=models.CASCADE, null=False, blank=False, related_name="posts")
+    # Quote id for quote tweets and quoted comments
+    quoteId = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, related_name="quote_tweet")
+    comment_quoteId = models.ForeignKey("Comments", on_delete=models.SET_NULL, null=True, blank=True, related_name="comment_quote")
     # For tweets that make up threads
-    thread = models.OneToOneField("self", on_delete=models.CASCADE, null=True, blank=True)
+    thread = models.OneToOneField("self", on_delete=models.CASCADE, null=True, blank=True, related_name="tweet_thread")
     threadHead = models.BooleanField(default=False)
     text = models.TextField(max_length=300, default="", blank=True)
     date_posted = models.DateField(auto_now_add=True)
     time_posted = models.TimeField(auto_now_add=True)
-    media = models.FileField(upload_to='media/posts/%Y/%m/%d', null=True, blank=True)
     
     def __str__(self):
         return f"post {self.id} posted by {self.userId.username}"
@@ -78,9 +80,7 @@ class Comments(models.Model):
     userId = models.ForeignKey("User", on_delete=models.CASCADE, related_name="comments", null=False, blank=False)
     postId = models.ForeignKey("Post", on_delete=models.SET_NULL, related_name="comments", null=True, blank=True)
     commentId = models.ForeignKey("self", on_delete=models.SET_NULL, related_name="comments", null=True, blank=True)
-    retweetId = models.ForeignKey("Retweet", on_delete=models.SET_NULL, related_name="comments", null=True, blank=True)
     text = models.TextField(max_length=300, default="", blank=True)
-    media = models.FileField(upload_to="media/comments/% Y/% m/% d", null=True, blank=True)
     date_posted = models.DateField(auto_now_add=True)
     time_posted = models.TimeField(auto_now_add=True)
     
@@ -91,10 +91,6 @@ class Retweet(models.Model):
     userId = models.ForeignKey("User", on_delete=models.CASCADE, related_name="retweets", null=False, blank=False)
     postId = models.ForeignKey("Post", on_delete=models.SET_NULL, related_name="retweets", null=True, blank=True)
     commentId = models.ForeignKey("Comments", on_delete=models.SET_NULL, related_name="retweets", null=True, blank=True)
-    retweetId = models.ForeignKey("self", on_delete=models.SET_NULL, related_name="retweets", null=True, blank=True)
-    thread = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
-    text = models.TextField(max_length=300, default="", blank=True)
-    media = models.FileField(upload_to="media/posts/% Y/% m/% d", null=True, blank=True)
     date_posted = models.DateField(auto_now_add=True)
     time_posted = models.TimeField(auto_now_add=True)
     
@@ -114,3 +110,9 @@ class Notification(models.Model):
     
     def __str__(self):
         return f"notification {self.id}, for {self.userId.username}"
+
+class Media(models.Model):
+    gif = models.CharField(max_length=25, null=True, blank=True)
+    media = models.FileField(upload_to="media/posts/%Y/%m/%d", null=True, blank=True)
+    postId = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="media", null=True, blank=True)
+    commentId = models.ForeignKey("Comments", on_delete=models.CASCADE, related_name="media", null=True, blank=True)

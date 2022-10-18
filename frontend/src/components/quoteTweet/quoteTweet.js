@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import PostMedia from "../postMedia/postMedia";
+import "./quoteTweet.sass";
 
 function QuoteTweet({ post }) {
     const apiHost = useSelector(state => state.apiHost);

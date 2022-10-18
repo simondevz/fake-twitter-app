@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Gif } from '@giphy/react-components';
+import "./postMedia.sass";
 
-function PostMedia({ mediaArr }) {
+function PostMedia({ mediaArr, width, height }) {
     const webSDK = useSelector(state => state.webSDK);
     const apiHost = useSelector(state => state.apiHost);
     const mediaArrRef = useRef(mediaArr);
@@ -44,24 +45,45 @@ function PostMedia({ mediaArr }) {
     }, [webSDK, mediaArrRef])
     
     // returns this when state is updated with the array
-    return state.media.map(media => {
-        if (media.gif) {
-            return (
-                <Gif 
-                    key={media.gif.id + Math.random()}
-                    gif={media.gif}
-                    width={200}
-                />
-            )
-        }
-        
-        return (
-            <embed 
-                key={media.id + Math.random()}
-                src={apiHost + media.media} 
-            />
-        )
-    });
+    return (
+        <p 
+            className="media"
+            style={{
+                width: width + "rem",
+                height: height + "rem",
+            }}
+        >
+            {
+                state.media.map((media, index, array) => {
+                    let len = array.length;
+                    if (media.gif) {
+                        return (
+                            <span className="postMedia_gif" >
+                                <Gif 
+                                    key={media.gif.id + Math.random()}
+                                    gif={media.gif}
+                                    width={(width/len) *14}
+                                    height={(height/len) *14}
+                                />
+                            </span>
+                        )
+                    }
+                    
+                    return (
+                        <embed 
+                            key={media.id + Math.random()}
+                            src={apiHost + media.media} 
+                            className="postMedia_embed"
+                            style={{
+                                width: width/len + "rem",
+                                height: height/len + "rem"
+                            }}
+                        />
+                    )
+                })
+            }
+        </p>
+    )
 }
 
 export default PostMedia

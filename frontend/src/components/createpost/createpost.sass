@@ -1,0 +1,168 @@
+@use "../../styles"
+
+.createpost
+    color: styles.$theme_text_color
+    
+    fieldset
+        border: styles.$no_border
+    
+    %button
+        width: 4.5rem
+        height: 2rem
+        border-radius: 4rem
+        border: styles.$no_border
+        font-weight: bold
+        font-size: 1rem
+    
+    .tweet
+        @extend %button
+        color: white
+        background-color: styles.$blue
+        position: absolute
+        top: .5rem
+        right: .5rem
+    
+    .draft
+        @extend %button
+        color: styles.$blue
+        background-color: transparent
+        position: absolute
+        top: .5rem
+        right: 5rem
+    
+    .filter_views
+        @extend %button
+        width: 5rem
+        height: 1.7rem
+        font-size: .9rem
+        position: relative
+        top: 1rem
+        right: .2rem
+        background-color: transparent
+        border: .1rem solid styles.$blue
+        color: styles.$blue
+    
+    .back
+        color: styles.$theme_text_color
+        font-family: ariel
+        font-size: 2rem
+        margin: 0
+        padding: 0
+        position: relative
+        top: -.2rem
+        left: .6rem
+    
+    .textarea
+        position: relative
+        top: 1.5rem
+        width: 16.5rem
+        height: 1.5rem
+        line-height: 1rem
+        color: white
+        border: styles.$no_border
+        background-color: transparent
+        font-size: 1.1rem
+        font-family: ariel
+        padding: 0.25rem
+        overflow: hidden
+        outline: none
+        
+        &::placeholder
+            color: styles.$grey
+            font-family: ariel
+    
+    .profile_pic
+        @include styles.profile_pic
+        display: inline-block
+        width: 2.7rem
+        height: 2.7rem
+    
+    .user_info
+        padding: .7rem
+    
+    .form_data
+        display: flex
+        flex-direction: column
+    
+    .container
+        display: flex
+        flex-direction: row
+    
+    .form_footer
+        display: flex
+        width: 100%
+        flex-direction: row
+        justify-content: space-between
+        position: fixed
+        bottom: 0
+        left: 0
+    
+    .logo_cover
+        display: inline
+        margin: 0
+        padding: 0
+    
+    %icons
+        height: 1.5rem
+        width: 1.5rem
+        fill: styles.$blue
+        stroke: styles.$blue
+        color: styles.$blue
+    
+    .add_gif_logo
+        @extend %icons
+    
+    .add_photo_logo
+        @extend %icons
+    
+    .add_thread_logo
+        @extend %icons
+    
+    .line
+        display: inline-block
+        width: .075rem
+        height: 1.5rem
+        background-color: styles.$theme_border_color
+    
+    .location_logo
+        @extend %icons
+    
+    .polls_logo
+        @extend %icons
+        transform: rotate(90deg)
+    
+    .add_photo_span
+        display: inline
+        padding: 0
+        margin: 0
+        
+        input
+            display: none
+    
+    .container1
+        display: flex
+        width: 60%
+        flex-direction: row
+        justify-content: space-around
+    
+    .container2
+        display: flex
+        width: 25%
+        flex-direction: row
+        justify-content: space-around
+        align-content: center
+    
+    .progress_bar
+        display: flex
+        width: 1.7rem
+        height: 1.7rem
+        border-radius: 50%
+        justify-content: center
+        
+        .progress
+            display: inline-block
+            background-color: styles.$theme
+            align-self: center
+            width: 1.4rem
+            height: 1.4rem
+            border-radius: 50%

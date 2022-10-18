@@ -1,11 +1,18 @@
 import {  useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, Outlet } from "react-router-dom";
-import { useRef, useEffect, useLayoutEffect } from "react";
-import jwt_decode from "jwt-decode";
+import { NavLink, useLocation, Outlet } from "react-router-dom";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { GiphyFetch } from '@giphy/js-fetch-api';
 
+import "./createpost.sass";
 import useFetch from "../hooks/fetch";
 import useToken from "../hooks/token";
+import useUser from "../hooks/useUser";
+import useUrl from "../hooks/useUrl";
+import AddPhotoLogo from "../../icons/add_photo_logo";
+import AddGifLogo from "../../icons/add_gif_logo";
+import AddThreadLogo from "../../icons/add_thread";
+import LocationLogo from "../../icons/location_logo";
+import PollsLogo from "../../icons/polls_logo";
 import QuoteTweet from "../quoteTweet/quoteTweet";
 import { updatePostForm, updatePostsToSend, updateCount } from "../../actions";
 
@@ -14,22 +21,46 @@ function CreatePost() {
     const postsToSend = useSelector(state => state.postsToSend);
     const postForm = useSelector(state => state.postForm);
     const count = useSelector(state => state.count);
-    const user = useSelector(state => state.user);
+    
+    let user = useSelector(state => state.user);
+    const url = useUrl();
+    const getUser = useUser();
+    const userRef = useRef(user);
+    const getUserRef = useRef(getUser);
+    const addPhotoRef = useRef(null);
     
     const webSDK = useSelector(state => state.webSDK);
     let token = useSelector(state => state.token);
     const getToken = useToken();
     const dispatch = useDispatch();
-    
     const fetch = useFetch();
+    
     const location = useLocation();
     const postFormRef = useRef(postForm);
     const locationStateRef = useRef(location.state);
+    const textareaRef = useRef(null);
+    const [state, setState] = useState({
+        PBstyle: {
+            backgroundImage: "linear-gradient(90deg, #8799A5 100%, transparent 0%)",
+        },
+        PBcount: null,
+    });
     
     useLayoutEffect(() => {
         postFormRef.current = postForm;
         locationStateRef.current = location.state;
-    }, [postForm, location.state]);
+        userRef.current = user;
+        getUserRef.current = getUser;
+    }, [postForm, location.state, user, getUser]);
+    
+    useEffect(() => {
+        async function checkUser() {
+            if (!userRef.current) {
+                await getUserRef.current();
+            }
+        }
+        checkUser();
+    }, [userRef, getUserRef]);
     
     useEffect(() => {
         async function showGif() {
@@ -51,9 +82,8 @@ function CreatePost() {
         event.preventDefault();
         let user_id = user?.id;
         if (!user_id) {
-            token = await getToken();
-            let decoded = jwt_decode(token);
-            user_id = decoded.user_id;
+            user = await getUser;
+            user_id = user.id;
         }
         postForm.post.userId = user_id;
         
@@ -142,54 +172,147 @@ function CreatePost() {
         }));
     }
     
+    // Dealing with Textarea Height
+    function handleTextarea(event) {
+        // Update postForm
+        handleChange(event, "text");
+        event.target.style.height = event.target.scrollHeight + "px";
+        updateProgress(event.target.value.length);
+    }
+    
+    // Update the progress bar to show when text exceeds limit
+    function updateProgress(len) {
+        const progress = len/300 * 100;
+        
+        // The whole bar should be red if progress is 100%
+        if (progress >= 100) {
+            setState({
+                ...state,
+                PBstyle: {
+                    backgroundImage: "linear-gradient(90deg, red 100%, transparent 0%)",
+                },
+                PBcount: 300 - len,
+            })
+            return
+        }
+        
+        // The bar should turn blue when progress reaches 1%
+        if (progress >= 1) {
+            console.log(360*progress/100);
+            setState({
+                ...state,
+                PBstyle: {
+                    backgroundImage: `linear-gradient(90deg, #8799A5 50%, #1D9AF0 50%), linear-gradient(${(360*progress/100) + 90}deg, #8799A5 50%, transparent 50%)`,
+                },
+                PBcount: 300 - len,
+            })
+            return
+        }
+        setState({
+            ...state,
+            PBcount: 300-len,
+        })
+    }
+    
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                { post_type === "tweet" && <button>draft</button> }
-                <button>{ post_type === "tweet" ? "Tweet" : "Reply" }</button>
+        <form className="createpost" onSubmit={handleSubmit}>
+            
+            <fieldset className="form_navbar" >
+                <NavLink to={-1} className="back">x</NavLink>
+                { post_type === "tweet" && <button className="draft" >Draft</button> }
+                <button className="tweet" >{ post_type === "tweet" ? "Tweet" : "Reply" }</button>
+            </fieldset>
+            
+            <fieldset className="container" >
+                <fieldset className="user_info" >
+                    <span 
+                        className="profile_pic"
+                        style={{backgroundImage: `url(${url(user?.profile_picture)})`}}
+                    />
+                </fieldset>
                 
-                <textarea 
-                    placeholder={
-                        location.pathname === "/createpost/polls" ? (
-                            "Ask a question"
-                        ) : (
-                            "What's happening"
-                        )
-                    }
-                    value={postForm.text}
-                    onChange={ 
-                        event => handleChange(event, "text")
-                    }
-                />
-                
-                <Outlet />
-                { location.state?.post && <QuoteTweet post={location.state.post} />}
-                
-                <input
-                    type="file"
-                    multiple
-                    onChange={ 
-                        event => {
-                            const files = event.target.files;
-                            const objURL = files[0];
-                            dispatch(updatePostForm({
-                                ...postForm,
-                                media: [...postForm.media, {
-                                    media: objURL
-                                }],
-                            }))
+                <fieldset className="form_data" >
+                    <button className="filter_views">Public &#x25BC;</button>
+                    <textarea 
+                        className="textarea"
+                        ref={textareaRef}
+                        autoFocus
+                        placeholder={
+                            location.pathname === "/createpost/polls" ? (
+                                "Ask a question"
+                            ) : (
+                                "What's happening?"
+                            )
                         }
-                    }
-                />
+                        value={postForm.text}
+                        onChange={handleTextarea}
+                    />
+                    
+                    <Outlet />
+                    { location.state?.post && <QuoteTweet post={location.state.post} />}
+                </fieldset>
+            </fieldset>
+            
+            
+            <p>who can reply</p>
+            <fieldset className="form_footer" >
+                <div className="container1">
+                    <span 
+                        className="add_photo_span"
+                        onClick={() => addPhotoRef.current.click()}
+                    >
+                        <input
+                            type="file"
+                            multiple
+                            ref={addPhotoRef}
+                            onChange={ 
+                                event => {
+                                    const files = event.target.files;
+                                    if (files.length > 3) {
+                                        alert("Only 4 files allowed")
+                                        return
+                                    }
+                                    
+                                    const objURL = files[0];
+                                    dispatch(updatePostForm({
+                                        ...postForm,
+                                        media: [...postForm.media, {
+                                            media: objURL
+                                        }],
+                                    }))
+                                }
+                            }
+                        />
+                        <AddPhotoLogo
+                            
+                            className="add_photo_logo"
+                        />
+                    </span>
+                    
+                    <NavLink className="logo_cover" to="/gifs">
+                        <AddGifLogo className="add_gif_logo" />
+                    </NavLink>
+                    <NavLink className="logo_cover" to="polls">
+                        <PollsLogo className="polls_logo" />
+                    </NavLink>
+                    
+                    <span className="logo_cover">
+                        <LocationLogo className="location_logo" />
+                    </span>
+                </div>
                 
-                <p>who can reply</p>
-                <Link to="/gifs">gif</Link><br />
-                <Link to="polls">polls</Link>
-                <p>add location tag</p>
-                <p>bar for text length warning</p>
-                <p>make thread</p>
-            </form>
-        </>
+                <div className="container2">
+                    <span 
+                        style={state.PBstyle}
+                        className="progress_bar"
+                    >
+                        <span className="progress">{state.PBcount ? state.PBcount : ""}</span>
+                    </span>
+                    <span className="line" />
+                    <AddThreadLogo className="add_thread_logo" />
+                </div>
+            </fieldset>
+        </form>
     )
 }
 

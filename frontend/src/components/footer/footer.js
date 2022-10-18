@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import HomeLogo from "../../icons/home_logo";
+import BellLogo from "../../icons/bell_logo";
+import "./footer.sass";
 
 function Footer() {
     return (
-        <footer>
+        <footer className="footer" >
             <div className="container">
-                <i className="fa-solid fa-house fa-xl"></i>
-                <Link to="/createpost/">
-                    <i className="fa-solid fa-circle-plus fa-xl"></i>
-                </Link>
-                <i className="fa-solid fa-bell fa-xl"></i>
+                <span className="home_logo_span" >
+                    <HomeLogo className="home_logo" />
+                </span>
+                
+                <span className="bell_logo_span">
+                    <BellLogo className="bell_logo" />
+                </span>
             </div>
         </footer>
     )

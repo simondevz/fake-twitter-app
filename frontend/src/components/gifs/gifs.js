@@ -3,6 +3,7 @@ import { Grid } from '@giphy/react-components';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import "./gifs.sass";
 
 function Gifs() {
     const webSDK = useSelector(state => state.webSDK);

@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 
 import { login, updateToken, updateUser } from "../../actions";
 import useFetch from "../hooks/fetch";
+import "./login.sass";
 
 function Login() {
     // Get data from redux store and dispatch function
