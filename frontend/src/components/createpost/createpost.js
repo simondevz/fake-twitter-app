@@ -14,6 +14,7 @@ import AddThreadLogo from "../../icons/add_thread";
 import LocationLogo from "../../icons/location_logo";
 import PollsLogo from "../../icons/polls_logo";
 import QuoteTweet from "../quoteTweet/quoteTweet";
+import WhoCanReply from "../whoCanReply/whoCanReply";
 import { updatePostForm, updatePostsToSend, updateCount } from "../../actions";
 
 function CreatePost() {
@@ -196,22 +197,51 @@ function CreatePost() {
             return
         }
         
-        // The bar should turn blue when progress reaches 1%
-        if (progress >= 1) {
-            console.log(360*progress/100);
+        // When it reaches 92% change color to red and show numbers
+        if (progress >= 92) {
             setState({
                 ...state,
                 PBstyle: {
-                    backgroundImage: `linear-gradient(90deg, #8799A5 50%, #1D9AF0 50%), linear-gradient(${(360*progress/100) + 90}deg, #8799A5 50%, transparent 50%)`,
+                    backgroundImage: `linear-gradient(90deg, transparent 50%, red 50%), linear-gradient(${(360*progress/100) - 90}deg, #8799A5 50%, red 50%)`,
                 },
                 PBcount: 300 - len,
             })
             return
         }
+        
+        // When it reaches 75% change color to yellow
+        if (progress >= 75) {
+            setState({
+                ...state,
+                PBstyle: {
+                    backgroundImage: `linear-gradient(90deg, transparent 50%, yellow 50%), linear-gradient(${(360*progress/100) - 90}deg, #8799A5 50%, yellow 50%)`,
+                },
+                PBcount: null,
+            })
+            return
+        }
+        
+        // When it reaches half get the other half to start changing color instead
+        if (progress >= 50) {
+            setState({
+                ...state,
+                PBstyle: {
+                    backgroundImage: `linear-gradient(90deg, transparent 50%, #1D9AF0 50%), linear-gradient(${(360*progress/100) - 90}deg, #8799A5 50%, #1D9AF0 50%)`,
+                },
+                PBcount: null,
+            })
+            return
+        }
+        
+        // The bar should turn blue when progress reaches 1%
         setState({
             ...state,
-            PBcount: 300-len,
+            PBstyle: {
+                backgroundImage: `linear-gradient(${(360*progress/100) + 90}deg, transparent 50%, #8799A5 50%), linear-gradient(90deg, #8799A5 50%, #1D9AF0 50%)`,
+            },
+            PBcount: null,
         })
+        return
     }
     
     return (
@@ -253,65 +283,65 @@ function CreatePost() {
                 </fieldset>
             </fieldset>
             
-            
-            <p>who can reply</p>
-            <fieldset className="form_footer" >
-                <div className="container1">
-                    <span 
-                        className="add_photo_span"
-                        onClick={() => addPhotoRef.current.click()}
-                    >
-                        <input
-                            type="file"
-                            multiple
-                            ref={addPhotoRef}
-                            onChange={ 
-                                event => {
-                                    const files = event.target.files;
-                                    if (files.length > 3) {
-                                        alert("Only 4 files allowed")
-                                        return
+            <div className="form_footer_div">
+                <WhoCanReply />
+                <fieldset className="form_footer" >
+                    <div className="container1">
+                        <span 
+                            className="add_photo_span"
+                            onClick={() => addPhotoRef.current.click()}
+                        >
+                            <input
+                                type="file"
+                                multiple
+                                ref={addPhotoRef}
+                                onChange={ 
+                                    event => {
+                                        const files = event.target.files;
+                                        if (files.length > 3) {
+                                            alert("Only 4 files allowed")
+                                            return
+                                        }
+                                        
+                                        const objURL = files[0];
+                                        dispatch(updatePostForm({
+                                            ...postForm,
+                                            media: [...postForm.media, {
+                                                media: objURL
+                                            }],
+                                        }))
                                     }
-                                    
-                                    const objURL = files[0];
-                                    dispatch(updatePostForm({
-                                        ...postForm,
-                                        media: [...postForm.media, {
-                                            media: objURL
-                                        }],
-                                    }))
                                 }
-                            }
-                        />
-                        <AddPhotoLogo
-                            
-                            className="add_photo_logo"
-                        />
-                    </span>
+                            />
+                            <AddPhotoLogo
+                                className="add_photo_logo"
+                            />
+                        </span>
+                        
+                        <NavLink className="logo_cover" to="/gifs">
+                            <AddGifLogo className="add_gif_logo" />
+                        </NavLink>
+                        <NavLink className="logo_cover" to="polls">
+                            <PollsLogo className="polls_logo" />
+                        </NavLink>
+                        
+                        <span className="logo_cover">
+                            <LocationLogo className="location_logo" />
+                        </span>
+                    </div>
                     
-                    <NavLink className="logo_cover" to="/gifs">
-                        <AddGifLogo className="add_gif_logo" />
-                    </NavLink>
-                    <NavLink className="logo_cover" to="polls">
-                        <PollsLogo className="polls_logo" />
-                    </NavLink>
-                    
-                    <span className="logo_cover">
-                        <LocationLogo className="location_logo" />
-                    </span>
-                </div>
-                
-                <div className="container2">
-                    <span 
-                        style={state.PBstyle}
-                        className="progress_bar"
-                    >
-                        <span className="progress">{state.PBcount ? state.PBcount : ""}</span>
-                    </span>
-                    <span className="line" />
-                    <AddThreadLogo className="add_thread_logo" />
-                </div>
-            </fieldset>
+                    <div className="container2">
+                        <span 
+                            style={state.PBstyle}
+                            className="progress_bar"
+                        >
+                            <span className="progress">{state.PBcount !== null ? state.PBcount : ""}</span>
+                        </span>
+                        <span className="line" />
+                        <AddThreadLogo className="add_thread_logo" />
+                    </div>
+                </fieldset>
+            </div>
         </form>
     )
 }

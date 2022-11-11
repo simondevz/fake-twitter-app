@@ -88,14 +88,21 @@
         display: flex
         flex-direction: row
     
-    .form_footer
+    .form_footer_div
         display: flex
         width: 100%
-        flex-direction: row
-        justify-content: space-between
+        flex-direction: column
         position: fixed
         bottom: 0
         left: 0
+    
+    .form_footer
+        display: flex
+        width: 100%
+        padding: .5rem
+        flex-direction: row
+        justify-content: space-between
+        border-top: styles.$theme_border
     
     .logo_cover
         display: inline
@@ -166,3 +173,5 @@
             width: 1.4rem
             height: 1.4rem
             border-radius: 50%
+            color: red
+            text-align: center

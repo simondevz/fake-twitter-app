@@ -1,0 +1,103 @@
+@use "../../styles"
+
+.WhoCanReply1
+    width: 100vw
+    color: styles.$blue
+    display: flex
+    flex-direction: row
+    align-content: center
+    padding: .5rem
+    border-top: styles.$theme_border
+    font-size: .8rem
+    
+    .logo
+        padding: 0 1rem
+    
+    .WhoCanReply_logo
+        height: 1rem
+        width: 1rem
+        fill: styles.$blue
+        stroke: styles.$blue
+        color: styles.$blue
+        
+        g
+            stroke: styles.$blue
+
+.WhoCanReply2_cover
+    background-color: #13181a96
+    z-index: 100
+    height: 100vh
+    display: block
+
+.WhoCanReply2
+    display: block
+    height: 50vh
+    background-color: styles.$theme
+    padding: 1.5rem
+    position: fixed
+    bottom: 0
+    border-top-left-radius: 2rem
+    border-top-right-radius: 2rem
+    
+    h2
+        font-weight: bold
+        font-size: 20px
+        padding: .5rem 0
+    
+    p
+        color: styles.$grey
+    
+    .listOptions
+        display: flex
+        height: 20rem
+        flex-direction: column
+        align-content: space-around
+    
+    .optionsSpan
+        display: flex
+        flex-direction: row
+        align-content: center
+        padding-top: 1rem
+    
+    .textSpan
+        display: flex
+        flex-direction: column
+        align-content: center
+        justify-content: center
+        padding: 0 .25rem
+    
+    .logoSpan
+        display: flex
+        flex-direction: column
+        justify-content: center
+        background-color: styles.$blue
+        height: 3.5rem
+        width: 3.5rem
+        border-radius: 50%
+    
+    .WhoCanReply_logo
+        height: 1.5rem
+        width: 1.5rem
+        fill: white
+        stroke: white
+        color: white
+        align-self: center
+        
+        g
+            stroke: white
+    
+    .picked
+        display: flex
+        width: 1rem
+        height: 1rem
+        font-size: .75rem
+        text-align: center
+        background-color: green
+        border-radius: 50%
+        flex-direction: column
+        justify-content: center
+        align-content: center
+        z-index: 100
+        position: relative
+        top: 2.5rem
+        right: 1rem
