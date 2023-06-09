@@ -1,1 +1,43 @@
 @use "../../styles"
+
+.posts
+    color: styles.$theme_text_color
+    padding: .75rem
+
+    .profile_pic
+        display: flex
+        flex-direction: row
+
+        .card-title
+            display: flex
+            flex-direction: column
+            justify-content: space-around
+            padding: .75rem .5rem
+
+            .username
+                font-size: 0.8rem
+                color: styles.$grey
+
+        img
+            width: 4.5rem
+            height: 4.5rem
+            padding: .5rem
+            object-fit: cover
+            border-radius: 50%
+
+    .time_details
+        color: styles.$grey
+        font-size: .9rem
+        font-weight: 500
+
+.react_to_post
+    display: flex
+    justify-content: space-around
+    color: styles.$grey
+    border: .1rem solid styles.$theme_border_color
+    border-left: none
+    border-radius: none
+    padding: .5rem
+
+    bold 
+        color: styles.$theme_text_color

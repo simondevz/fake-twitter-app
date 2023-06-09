@@ -2,3 +2,43 @@
 
 .menu
     display: none
+
+div.hover 
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 1000
+    background-color: styles.$theme
+    height: 100vh
+    overflow-y: scroll
+
+    .ul
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        height: 100%
+
+        span 
+            padding: .75rem 1.5rem
+            text-decoration: none
+            font-size: 1.2rem
+            color: styles.$theme_text_color
+
+            a
+                &:visited
+                    color: styles.$theme_text_color
+
+    .logout
+        padding: .75rem 1.5rem
+        z-index: 20
+        position: absolute
+        bottom: 0
+        font-size: 1.2rem
+        color: styles.$theme_text_color
+
+        &:hover
+            color: styles.$blue
+
